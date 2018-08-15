@@ -1,14 +1,12 @@
 require('dotenv').config()
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser') 
-const request = require('request'); // "Request" library
-const cors = require('cors');
-const querystring = require('querystring');
-const cookieParser = require('cookie-parser');
+var express = require('express'); // Express web server framework
+var request = require('request'); // "Request" library
+var cors = require('cors');
+var querystring = require('querystring');
+var cookieParser = require('cookie-parser');
 
-const client_id = process.env.CLIENT_ID; // Your client id
-const client_secret = process.env.CLIENT_SECRET; // Your secret
+var client_id = process.env.CLIENT_ID; // Your client id
+var client_secret = process.env.CLIENT_SECRET; // Your secret
 var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
 /**
@@ -28,11 +26,14 @@ var generateRandomString = function (length) {
 
 var stateKey = 'spotify_auth_state';
 
+var app = express();
+
 app.use(express.static(__dirname + '/public'))
   .use(cors())
   .use(cookieParser());
 
 app.get('/login', function (req, res) {
+
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
@@ -49,6 +50,7 @@ app.get('/login', function (req, res) {
 });
 
 app.get('/callback', function (req, res) {
+
   // your application requests refresh and access tokens
   // after checking the state parameter
 
@@ -67,7 +69,7 @@ app.get('/callback', function (req, res) {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code: code,
-        redirect_uri: 'redirect_uri',
+        redirect_uri: redirect_uri,
         grant_type: 'authorization_code'
       },
       headers: {
@@ -137,6 +139,5 @@ app.get('/refresh_token', function (req, res) {
   });
 });
 
-app.listen(8888, () => {
-  console.log('Server Working')
-});
+console.log('Listening on 8888');
+app.listen(8888);
