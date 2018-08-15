@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 
 const client_id = process.env.CLIENT_ID; // Your client id
 const client_secret = process.env.CLIENT_SECRET; // Your secret
-const redirect_uri = 'REDIRECT_URI'; // Your redirect uri
+var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -28,14 +28,11 @@ var generateRandomString = function (length) {
 
 var stateKey = 'spotify_auth_state';
 
-// var app = express();
-
 app.use(express.static(__dirname + '/public'))
   .use(cors())
   .use(cookieParser());
 
 app.get('/login', function (req, res) {
-
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
@@ -52,7 +49,6 @@ app.get('/login', function (req, res) {
 });
 
 app.get('/callback', function (req, res) {
-
   // your application requests refresh and access tokens
   // after checking the state parameter
 
@@ -71,7 +67,7 @@ app.get('/callback', function (req, res) {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code: code,
-        redirect_uri: redirect_uri,
+        redirect_uri: 'redirect_uri',
         grant_type: 'authorization_code'
       },
       headers: {
@@ -141,6 +137,6 @@ app.get('/refresh_token', function (req, res) {
   });
 });
 
-app.listen(3000, () => {
+app.listen(8888, () => {
   console.log('Server Working')
 });
