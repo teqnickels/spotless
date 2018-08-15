@@ -20,6 +20,9 @@
   "homepage": "https://github.com/teqnickels/spotless#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.3"
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "request": "~2.83.0"
+
   }
 }
