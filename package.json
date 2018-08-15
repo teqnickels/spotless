@@ -2,10 +2,10 @@
   "name": "spotless",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -20,9 +20,12 @@
   "homepage": "https://github.com/teqnickels/spotless#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
-    "request": "~2.83.0"
-
+    "nodemon": "^1.18.3",
+    "request": "~2.83.0",
+    "querystring": "~0.2.0"
   }
 }
