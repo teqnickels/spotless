@@ -38,7 +38,7 @@ app.get('/login', function (req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email';
+  var scope = 'user-read-private user-read-email playlist-modify-public playlist-read-private';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -53,7 +53,7 @@ app.get('/callback', function (req, res) {
 
   // your application requests refresh and access tokens
   // after checking the state parameter
-
+  console.log('QUERY', req.query)
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -94,7 +94,7 @@ app.get('/callback', function (req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, function (error, response, body) {
-          console.log(body);
+          console.log('BODY',body);
         });
 
         // we can also pass the token to the browser to make requests from there
