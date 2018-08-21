@@ -40,21 +40,33 @@
         access_token: access_token,
         refresh_token: refresh_token
       });
-      $.ajax({
+      $.when($.ajax({
         url: 'https://api.spotify.com/v1/me/playlists',
         headers: {
           'Authorization': 'Bearer ' + access_token,
         },
         success: function (response) {
-          var playlist = document.getElementById('playlist')
-          console.log(response.items)
+          // var playlist = document.getElementById('playlist')
           playlistPlaceholder.innerHTML = playlistTemplate(response.items)
-          userProfilePlaceholder.innerHTML = userProfileTemplate(response);
+        
           $('#login').hide();
           $('#loggedin').show();
         }
-        
-      });
+      })
+    ).then(function() {
+      $.ajax({
+        url: 'https://api.spotify.com/v1/me',
+        headers: {
+          'Authorization': 'Bearer ' + access_token,
+        },
+        success: function (response) {
+          userProfilePlaceholder.innerHTML = userProfileTemplate(response);
+
+          $('#login').hide();
+          $('#loggedin').show();
+        }
+      })
+    })
     } else {
       // render initial screen
       $('#login').show();
